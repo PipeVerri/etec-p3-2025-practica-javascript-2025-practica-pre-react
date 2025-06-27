@@ -6,10 +6,15 @@
   <title>SPA con JS Moderno</title>
 </head>
 <body>
-  <nav>
-    <button data-route="/">Inicio</button>
-    <button data-route="/productos">Productos</button>
-    <button data-route="/contacto">Contacto</button>
+  <nav id="navigation">
+    <button id="atras">Atras</button>
+    <button id="adelante">Adelante</button>
+  </nav>
+  <nav id="routesContainer">
+    <button data-route="/04-enrutamiento/spa-history/">Inicio</button>
+    <button data-route="/04-enrutamiento/spa-history/productos">Productos</button>
+    <button data-route="/04-enrutamiento/spa-history/contacto">Contacto</button>
+    <button data-route="/04-enrutamiento/spa-history/producto/2">Test consigna 1</button>
   </nav>
   <main id="app"></main>
   <script type="module" src="main.js"></script>

@@ -13,7 +13,12 @@ async function fetchProducts() {
     list.innerHTML = '';
     products.forEach(prod => {
       const li = document.createElement('li');
-      li.textContent = `${prod.name} - $${prod.price}`;
+      
+      const clickable = document.createElement('div');
+      clickable.textContent = `${prod.name} - $${prod.price}`;
+      clickable.onclick = () => alert(`Detalles del producto: ${prod.name}\nPrecio: $${prod.price}\nDescripción: ${prod.description}\nID: ${prod.id}`);
+      clickable.classList = ["clickable"];
+
       // Llama a showDetails al hacer clic en el nombre del producto
       li.onclick = () => showDetails(prod.id);
       // Crea el botón de eliminar y llama a deleteProduct
@@ -23,6 +28,7 @@ async function fetchProducts() {
         e.stopPropagation(); // Evita que se dispare el evento de detalles
         deleteProduct(prod.id).then(fetchProducts);
       };
+      li.appendChild(clickable);
       li.appendChild(btn);
       list.appendChild(li);
     });
@@ -34,19 +40,33 @@ async function fetchProducts() {
 // EJERCICIO 1: Crear producto
 // Completa esta función para enviar los datos del formulario usando axios POST
 async function createProduct(name, price, description) {
-  // Tu código aquí
+  try {
+    const product = { name, price, description };
+    await axios.post(BASE_URL, product); // Realiza una petición POST
+  } catch (err) {
+    alert('Error al crear el producto');
+  }
 }
 
 // EJERCICIO 2: Eliminar producto
 // Completa esta función para eliminar un producto usando axios DELETE
 async function deleteProduct(id) {
-  // Tu código aquí
+  try {
+    await axios.delete(`${BASE_URL}/${id}`); // Realiza una petición DELETE
+  } catch (err) {
+    alert('Error al eliminar el producto');
+  }
 }
 
 // EJERCICIO 3: Ver detalles de producto
 // Completa esta función para mostrar detalles usando axios GET /products/:id
 async function showDetails(id) {
-  // Tu código aquí
+  try {
+    const res = await axios.get(`${BASE_URL}/${id}`); // Realiza una petición GET
+    const product = res.data; // Axios retorna los datos en la propiedad 'data'
+  } catch (err) {
+    alert('Error al obtener los detalles del producto');
+  }
 }
 
 // Maneja el submit del formulario para crear un producto

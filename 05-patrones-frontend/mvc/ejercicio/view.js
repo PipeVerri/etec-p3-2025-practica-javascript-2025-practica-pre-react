@@ -1,10 +1,16 @@
+import { Tarjeta } from "./componentes/tarjeta.js";
+import { Formulario } from "./componentes/formulario.js";
+
 // Vista: Se encarga de la presentación y la interacción con el usuario
 export class TaskView {
   constructor() {
     // Referencias a los elementos del DOM
     this.list = document.getElementById('task-list');
-    this.form = document.getElementById('task-form');
+    this.formContainer = document.getElementById('formContainer');
+    this.form = Formulario()
+    this.formContainer.appendChild(this.form); // Agrega el formulario al contenedor
     this.input = document.getElementById('task-input');
+    this.tarjetaList = []
   }
 
   // Renderiza la lista de tareas en el DOM
@@ -12,9 +18,12 @@ export class TaskView {
     this.list.innerHTML = '';
     tasks.forEach((task, idx) => {
       const li = document.createElement('li');
-      li.textContent = task;
-      // TODO: Agrega aquí el botón y la lógica para eliminar la tarea
-      // TODO: Agrega aquí el botón y la lógica para editar la tarea
+      const t = Tarjeta({
+        titulo: `Tarea ${idx + 1}`,
+        contenido: task
+      })
+      li.appendChild(t);
+      this.tarjetaList.push(t);
       this.list.appendChild(li);
     });
   }
@@ -28,9 +37,20 @@ export class TaskView {
     };
   }
 
-  // TODO: Asocia el evento de eliminar tarea a la lista
-  // bindRemoveTask(handler) { ... }
+  bindRemoveTask(handler) {
+    this.tarjetaList.forEach((tarjeta, idx) => {
+      tarjeta.querySelector('button').onclick = () => {
+        handler(idx); // Llama al controlador con el índice de la tarea
+      };
+    });
+  }
 
-  // TODO: Asocia el evento de editar tarea a la lista
-  // bindEditTask(handler) { ... }
+  bindEditTask(handler) {
+    this.tarjetaList.forEach((tarjeta, idx) => {
+      const input = tarjeta.querySelector('input[type="text"]');
+      input.onchange = () => {
+        handler(idx, input.value); // Llama al controlador con el índice y el nuevo valor
+      };
+    });
+  }
 } 

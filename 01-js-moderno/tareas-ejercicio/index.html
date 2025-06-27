@@ -11,6 +11,16 @@
     <input type="text" id="task-input" placeholder="Nueva tarea" required />
     <button type="submit">Agregar</button>
   </form>
+  <div>
+    <label>
+      <label>Mostrar por:</label>
+      <select name="Filtrar por:" id="filter"> 
+        <option value="all">Todas</option>
+        <option value="completed">Completadas</option>
+        <option value="todo">No Completadas</option>
+      </select>
+    </label>
+  </div>
   <ul id="task-list"></ul>
   <script type="module" src="main.js"></script>
 </body>
